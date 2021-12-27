@@ -1,53 +1,47 @@
+import 'package:bmi_calculator/widgets/global_widget_and_method.dart';
 import 'package:flutter/material.dart';
 
 class IconContent extends StatefulWidget {
   final title;
   final IconData icon;
-  IconContent(this.title, this.icon);
+  final color;
+  void Function(int) updateColor;
+  final idx;
+  IconContent(this.idx, this.title, this.icon, this.color,this.updateColor);
 
   @override
   State<IconContent> createState() => _IconContentState();
 }
 
 class _IconContentState extends State<IconContent> {
-  Color activeColor = Color(0xFFFFFFFF);
-
-  Color inActiveColor = Color(0xFFAEB4C9);
-
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Color(0xFF272A4E),
-      child: FlatButton(
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+      widget.updateColor(widget.idx);
+      },
+      child: Card(
+        color: Color(0xFF272A4E),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               widget.icon,
               size: 70,
-              color: inActiveColor,
+              color: Color(widget.color),
             ),
             SizedBox(
               height: 10,
             ),
             Text(
               widget.title,
-              style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: inActiveColor),
+              style: formateText(25, widget.color, true),
             ),
           ],
         ),
-        onPressed: () {
-          var temp = activeColor;
-          activeColor = inActiveColor;
-          inActiveColor = temp;
-          setState(() {
-            
-          });
-        },
       ),
-    );
+    ),
+     );
   }
 }
